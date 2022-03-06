@@ -34,11 +34,11 @@ class Application(tk.Tk):
         self.bind("<Escape>", self.quit)
         self.v = IntVar()
 
-        self.prodej = tk.Radiobutton(self, text="prodej", variable=self.v, value=1, command=self.prodej)
-        self.prodej.grid(row=1, column=1)
+        self.prodavani = tk.Radiobutton(self, text="Prodej", variable=self.v, value=1, command=self.dostanete)
+        self.prodavani.grid(row=1, column=1)
 
-        self.nakup = tk.Radiobutton(self, text="nákup", variable=self.v, value=2, command=self.nakup)
-        self.nakup.grid(row=2, column=1)
+        self.nakupovani = tk.Radiobutton(self, text="Nákup", variable=self.v, value=2, command=self.zaplatite)
+        self.nakupovani.grid(row=2, column=1)
 
         self.vstup = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
         self.vstup.grid(row=3, column=1)
@@ -48,6 +48,9 @@ class Application(tk.Tk):
 
         self.lbl_mena = tk.Label(self, text="CZK")
         self.lbl_mena.grid(row=4, column=2)
+
+        self.lbl_cena = tk.Label(self, text="")
+        self.lbl_cena.grid(row=4, column=3)
 
         self.lstBx = Listbox(self)
         self.lstBx.grid(row=5, column=1)
@@ -74,19 +77,21 @@ class Application(tk.Tk):
         print(self.radky[self.index])
 
 
-    def prodej(self):
+    def nakup(self):
         if self.index == None or self.vstup.get() == "":
             messagebox.showwarning("Chyba","Nezadali jste vstupní hodnotu nebo nevybrali měnu!")
         else:
             self.p = float(self.vstup.get())*float(self.prodejni_ceny[self.index])
+            self.p = round(self.p)
             self.lbl_vysledek.config(text=self.p)
 
 
-    def nakup(self):
+    def prodej(self):
         if self.index == None or self.vstup.get() == "":
             messagebox.showwarning("Chyba", "Nezadali jste vstupní hodnotu nebo nevybrali měnu!")
         else:
             self.n = float(self.vstup.get())*float(self.nakupni_ceny[self.index])
+            self.n = round(self.n)
             self.lbl_vysledek.config(text=self.n)
 
     
@@ -104,6 +109,17 @@ class Application(tk.Tk):
             return True
         else:
             return False
+
+    
+    def dostanete(self):
+        self.prodej()
+        self.lbl_cena.config(text="Dostanete {} Kč.".format(self.n))
+
+    def zaplatite(self):
+        self.nakup()
+        self.lbl_cena.config(text="Zaplatíte {} Kč.".format(self.p))
+        
+
 
 
   
