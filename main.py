@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from cProfile import label
 from os.path import basename, splitext
 import tkinter as tk
 from tkinter import Listbox, END
@@ -51,6 +52,12 @@ class Application(tk.Tk):
 
         self.lbl_cena = tk.Label(self, text="")
         self.lbl_cena.grid(row=5, column=3)
+
+        """self.lbl_final = tk.Label(self,text="")
+        self.lbl_final.grid(row=5, column=6)
+
+        self.tl = tk.Button(self, text = "Přepočet", command=self.pocet())
+        self.tl.grid(row=5, column=7)"""
 
         self.lstBx = Listbox(self)
         self.lstBx.grid(row=5, column=1)
@@ -113,13 +120,26 @@ class Application(tk.Tk):
 
     
     def dostanete(self):
-        self.prodej()
-        self.lbl_cena.config(text="Dostanete {} Kč.".format(round(self.n)))
+        try:
+            self.prodej()
+            self.lbl_cena.config(text="Dostanete {} Kč.".format(round(self.n)))
+        except:
+            messagebox.showerror("Chyba", "Chybějící parametry")
 
     def zaplatite(self):
-        self.nakup()
-        self.lbl_cena.config(text="Zaplatíte {} Kč.".format(round(self.p)))
+        try:
+            self.nakup()
+            self.lbl_cena.config(text="Zaplatíte {} Kč.".format(round(self.p)))
+        except:
+             messagebox.showerror("Chyba", "Chybějící parametry")
         
+
+    """def pocet(self):
+        if self.nakupovani.isChecked():
+            self.lbl_final.config(text=self.p)
+        else:
+            self.lbl_final.config(text=self.n)"""
+
 
 
 
