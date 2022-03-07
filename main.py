@@ -106,7 +106,7 @@ class Application(tk.Tk):
 
         
     def validate(self, value):
-        if len(value) == 0 or value.isnumeric() or self.desetinne(value) or value==",":
+        if len(value) == 0 or value.isnumeric() or self.desetinne(value):
             return True
         else:
             return False
