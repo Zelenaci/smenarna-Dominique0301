@@ -82,7 +82,6 @@ class Application(tk.Tk):
             messagebox.showwarning("Chyba","Nezadali jste vstupní hodnotu nebo nevybrali měnu!")
         else:
             self.p = float(self.vstup.get())*float(self.prodejni_ceny[self.index])
-            self.p = round(self.p)
             self.lbl_vysledek.config(text=self.p)
 
 
@@ -91,21 +90,20 @@ class Application(tk.Tk):
             messagebox.showwarning("Chyba", "Nezadali jste vstupní hodnotu nebo nevybrali měnu!")
         else:
             self.n = float(self.vstup.get())*float(self.nakupni_ceny[self.index])
-            self.n = round(self.n)
             self.lbl_vysledek.config(text=self.n)
 
     
     
-    def desetinne(self):
+    def desetinne(self, value):
         try:
-            float(self.vstup.get())
+            float(value)
         except:
             return False
         return True
 
         
     def validate(self, value):
-        if len(value) == 0 or value.isnumeric() or self.desetinne():
+        if len(value) == 0 or value.isnumeric() or self.desetinne(value):
             return True
         else:
             return False
@@ -113,11 +111,11 @@ class Application(tk.Tk):
     
     def dostanete(self):
         self.prodej()
-        self.lbl_cena.config(text="Dostanete {} Kč.".format(self.n))
+        self.lbl_cena.config(text="Dostanete {} Kč.".format(round(self.n)))
 
     def zaplatite(self):
         self.nakup()
-        self.lbl_cena.config(text="Zaplatíte {} Kč.".format(self.p))
+        self.lbl_cena.config(text="Zaplatíte {} Kč.".format(round(self.p)))
         
 
 
