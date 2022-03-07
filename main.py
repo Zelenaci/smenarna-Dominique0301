@@ -5,7 +5,7 @@ from os.path import basename, splitext
 import tkinter as tk
 from tkinter import Listbox, END
 #from typing_extensions import IntVar
-from tkinter import IntVar, messagebox
+from tkinter import IntVar, messagebox, StringVar
 
 from numpy import True_
 
@@ -33,12 +33,12 @@ class Application(tk.Tk):
         super().__init__(className=self.name)
         self.title(self.name)
         self.bind("<Escape>", self.quit)
-        self.v = IntVar()
+        self.v = StringVar()
 
-        self.prodavani = tk.Radiobutton(self, text="Prodej", variable=self.v, value=1, command=self.prodej)
+        self.prodavani = tk.Radiobutton(self, text="Prodej", variable=self.v, value=1, command=self.sel)
         self.prodavani.grid(row=1, column=1)
 
-        self.nakupovani = tk.Radiobutton(self, text="Nákup", variable=self.v, value=2, command=self.nakup)
+        self.nakupovani = tk.Radiobutton(self, text="Nákup", variable=self.v, value=2, command=self.sel)
         self.nakupovani.grid(row=2, column=1)
 
         self.vstup = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
@@ -53,11 +53,11 @@ class Application(tk.Tk):
         self.lbl_cena = tk.Label(self, text="")
         self.lbl_cena.grid(row=5, column=3)
 
-        """self.lbl_final = tk.Label(self,text="")
+        self.lbl_final = tk.Label(self,text="")
         self.lbl_final.grid(row=5, column=6)
 
-        self.tl = tk.Button(self, text = "Přepočet", command=self.pocet())
-        self.tl.grid(row=5, column=7)"""
+        self.tl = tk.Button(self, text = "Přepočet", command=self.final)
+        self.tl.grid(row=6, column=7)
 
         self.lstBx = Listbox(self)
         self.lstBx.grid(row=5, column=1)
@@ -123,11 +123,25 @@ class Application(tk.Tk):
     
 
 
-    """def pocet(self):
-        if self.nakupovani.isChecked():
-            self.lbl_final.config(text=self.p)
+    def pocet(self):
+        if self.v.get() == "1":
+            self.prodej()
+        elif self.v.get() == "2":
+            self.nakup()
         else:
-            self.lbl_final.config(text=self.n)"""
+            messagebox.showwarning("Chyba", "Nezadali jste vstupní hodnotu nebo nevybrali měnu!")
+
+
+    def sel(self): #Command called whenever state of radiobutton is modified
+        print(type(self.v.get()))
+
+
+    def final(self):
+        if self.index == None or self.vstup.get() == "":
+            messagebox.showwarning("Chyba", "Nezadali jste vstupní hodnotu nebo nevybrali měnu!")
+        else:
+            self.pocet()
+
 
 
 
