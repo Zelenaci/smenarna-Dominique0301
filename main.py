@@ -35,10 +35,10 @@ class Application(tk.Tk):
         self.bind("<Escape>", self.quit)
         self.v = IntVar()
 
-        self.prodavani = tk.Radiobutton(self, text="Prodej", variable=self.v, value=1, command=self.dostanete)
+        self.prodavani = tk.Radiobutton(self, text="Prodej", variable=self.v, value=1, command=self.prodej)
         self.prodavani.grid(row=1, column=1)
 
-        self.nakupovani = tk.Radiobutton(self, text="Nákup", variable=self.v, value=2, command=self.zaplatite)
+        self.nakupovani = tk.Radiobutton(self, text="Nákup", variable=self.v, value=2, command=self.nakup)
         self.nakupovani.grid(row=2, column=1)
 
         self.vstup = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
@@ -93,6 +93,7 @@ class Application(tk.Tk):
         else:
             self.p = float(self.vstup.get())*float(self.prodejni_ceny[self.index])
             self.lbl_vysledek.config(text=self.p)
+            self.lbl_cena.config(text="Zaplatíte {} Kč.".format(round(self.p)))
 
 
     def prodej(self):
@@ -101,6 +102,7 @@ class Application(tk.Tk):
         else:
             self.n = float(self.vstup.get())*float(self.nakupni_ceny[self.index])
             self.lbl_vysledek.config(text=self.n)
+            self.lbl_cena.config(text="Dostanete {} Kč.".format(round(self.n)))
 
     
     
@@ -119,20 +121,7 @@ class Application(tk.Tk):
             return False
 
     
-    def dostanete(self):
-        try:
-            self.prodej()
-            self.lbl_cena.config(text="Dostanete {} Kč.".format(round(self.n)))
-        except:
-            messagebox.showerror("Chyba", "Chybějící parametry")
 
-    def zaplatite(self):
-        try:
-            self.nakup()
-            self.lbl_cena.config(text="Zaplatíte {} Kč.".format(round(self.p)))
-        except:
-             messagebox.showerror("Chyba", "Chybějící parametry")
-        
 
     """def pocet(self):
         if self.nakupovani.isChecked():
