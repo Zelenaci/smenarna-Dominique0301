@@ -43,25 +43,28 @@ class Application(tk.Tk):
         self.vstup = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
         self.vstup.grid(row=3, column=1)
 
-        self.lbl_vysledek =tk.Label(self, text="")
+        self.lbl_vysledek =tk.Label(self, text="", foreground="red")
         self.lbl_vysledek.grid(row=4, column=1)
 
         self.lbl_mena = tk.Label(self, text="CZK")
         self.lbl_mena.grid(row=4, column=2)
 
         self.lbl_cena = tk.Label(self, text="")
-        self.lbl_cena.grid(row=4, column=3)
+        self.lbl_cena.grid(row=5, column=3)
 
         self.lstBx = Listbox(self)
         self.lstBx.grid(row=5, column=1)
         self.lstBx.bind("<ButtonRelease-1>", self.kliknu)
-        self.geometry("400x500")
+        self.geometry("400x400")
 
         f = open("listek.txt")
         self.radky = f.readlines()
 
         self.prodejni_ceny = []
         self.nakupni_ceny = []
+
+        self.carka = self.vstup.get().replace(",",".")
+
        
 
         for radek in self.radky:
@@ -103,7 +106,7 @@ class Application(tk.Tk):
 
         
     def validate(self, value):
-        if len(value) == 0 or value.isnumeric() or self.desetinne(value):
+        if len(value) == 0 or value.isnumeric() or self.desetinne(value) or value==",":
             return True
         else:
             return False
