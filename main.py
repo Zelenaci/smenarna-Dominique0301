@@ -57,7 +57,7 @@ class Application(tk.Tk):
         self.lbl_final.grid(row=5, column=6)
 
         self.tl = tk.Button(self, text = "Přepočet", command=self.final)
-        self.tl.grid(row=6, column=7)
+        self.tl.grid(row=7, column=1)
 
         self.lstBx = Listbox(self)
         self.lstBx.grid(row=5, column=1)
@@ -132,7 +132,7 @@ class Application(tk.Tk):
             messagebox.showwarning("Chyba", "Nezadali jste vstupní hodnotu nebo nevybrali měnu!")
 
 
-    def sel(self): #Command called whenever state of radiobutton is modified
+    def sel(self):
         print(type(self.v.get()))
 
 
